@@ -1,4 +1,8 @@
+import { CountryData } from './../dashboard/interfaces/countries';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../reducers';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-detail',
@@ -7,9 +11,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: Store<AppState>) { }
+  public country$: Observable<CountryData>;
 
   ngOnInit() {
+    this.country$ = this.store.select((state) => state.dashboard.countrySelected);
   }
 
 }

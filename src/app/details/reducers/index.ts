@@ -7,7 +7,7 @@ import {
 
 export const detailsFeatureKey = 'details';
 
-export interface State {
+export interface DetailsState {
 
 }
 

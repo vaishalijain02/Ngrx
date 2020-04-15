@@ -10,6 +10,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './reducers';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,14 +30,13 @@ import { reducers } from './reducers';
       logOnly: environment.production,
     }),
 
-    StoreModule.forRoot({}, {}),
-
     StoreModule.forRoot(reducers, {
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
       },
     }),
+    EffectsModule.forRoot(),
 
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
