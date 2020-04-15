@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{"QR/W":function(n,o,t){"use strict";t.r(o),t.d(o,"DetailsModule",function(){return u});var u=function(){return function(){}}()}}]);
