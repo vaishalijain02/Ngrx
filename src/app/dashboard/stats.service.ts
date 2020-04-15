@@ -1,18 +1,17 @@
-import { Global } from "./interfaces/global";
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { Summary } from "./interfaces/response";
-import { map } from "rxjs/operators";
-import { CountryData } from "./interfaces/countries";
+import { Global } from './interfaces/global';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Summary } from './interfaces/response';
+import { map } from 'rxjs/operators';
+import { CountryData } from './interfaces/countries';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class StatsService {
   constructor(private http: HttpClient) {}
-  private configUrl = "https://api.covid19api.com/summary";
-  //https://api.covid19api.com/country/south-africa/status/confirmed/live
+  private configUrl = 'https://api.covid19api.com/summary';
   private getConfig(): Observable<Summary> {
     return this.http.get<Summary>(this.configUrl);
   }
@@ -37,7 +36,7 @@ export class StatsService {
   }
 
   public countryByCountryCode(
-    countryCode: string
+    countryCode: String
   ): Observable<CountryData | undefined> {
     return this.getCountriesList().pipe(
       map(
@@ -47,6 +46,29 @@ export class StatsService {
               country.CountryCode === countryCode
           )
       )
+    );
+  }
+  public getConfirmedByCountry(countryCode: String) {
+    return this.http.get(
+      'https://api.covid19api.com/country/' +
+        countryCode +
+        '/status/confirmed/live'
+    );
+  }
+
+  public getDeadByCountry(countryCode: String) {
+    return this.http.get(
+      'https://api.covid19api.com/country/' +
+        countryCode +
+        '/status/deaths/live'
+    );
+  }
+
+  public getRecoveredByCountry(countryCode: String) {
+    return this.http.get(
+      'https://api.covid19api.com/country/' +
+        countryCode +
+        '/status/recovered/live'
     );
   }
 }

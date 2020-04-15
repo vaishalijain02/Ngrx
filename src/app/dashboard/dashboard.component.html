@@ -1,23 +1,33 @@
-<div class="summary">
-  <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-    <div class="card-header">Total Cases</div>
-    <div class="card-body">
-      <p class="card-text">{{ (global$ | async)?.TotalConfirmed }}</p>
+<div class="container">
+  <div class="row">
+    <div class="col">
+     <div class="card text-white bg-primary mb-3">
+       <div class="card-header">Total Cases</div>
+       <div class="card-body">
+         <p class="card-text">{{ (global$ | async)?.TotalConfirmed }}</p>
+       </div>
+     </div>
     </div>
-  </div>
-  <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
-    <div class="card-header">Total Deaths</div>
-    <div class="card-body">
-      <p class="card-text">{{ (global$ | async)?.TotalDeaths }}</p>
-    </div>
-  </div>
-  <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-    <div class="card-header">Total Recovered</div>
-    <div class="card-body">
-      <p class="card-text">{{ (global$ | async)?.TotalRecovered }}</p>
-    </div>
-  </div>
+     <div class="col">
+       <div class="card text-white bg-danger mb-3">
+         <div class="card-header">Total Deaths</div>
+         <div class="card-body">
+           <p class="card-text">{{ (global$ | async)?.TotalDeaths }}</p>
+         </div>
+       </div>
+     </div>
+   <div class="col">
+     <div class="col card text-white bg-success mb-3">
+       <div class="card-header">Total Recovered</div>
+       <div class="card-body">
+         <p class="card-text">{{ (global$ | async)?.TotalRecovered }}</p>
+       </div>
+     </div>
+   </div>
+   </div>
 </div>
+
+
 <form class="container" [formGroup]="countryForm">
   <select formControlName="country" class="custom-select custom-select-lg mb-3">
     <option
@@ -31,19 +41,19 @@
 
 <div class="container" *ngIf="countrySelected">
   <h3 class="text-align">
-    {{ (countrySelected$ | async).Country }}-{{
-      (countrySelected$ | async).CountryCode
+    {{ (countrySelectedData$ | async).Country }}-{{
+      (countrySelectedData$ | async).CountryCode
     }}
   </h3>
 
   <div class="alert alert-primary" role="alert">
-    Total Cases - {{ (countrySelected$ | async)?.TotalConfirmed }}
+    Total Cases - {{ (countrySelectedData$ | async)?.TotalConfirmed }}
   </div>
   <div class="alert alert-danger" role="alert">
-    Total Deaths - {{ (countrySelected$ | async)?.TotalDeaths }}
+    Total Deaths - {{ (countrySelectedData$ | async)?.TotalDeaths }}
   </div>
   <div class="alert alert-success" role="alert">
-    Total Recovered - {{ (countrySelected$ | async)?.TotalRecovered }}
+    Total Recovered - {{ (countrySelectedData$ | async)?.TotalRecovered }}
   </div>
   <div class="text-align">
     <button routerLink="/details" type="button" class="btn btn-info">

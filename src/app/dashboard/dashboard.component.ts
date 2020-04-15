@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   public countryList$: Observable<CountryData[]> = this.store.select(
     (state) => state.dashboard.countryList
   );
-  public countrySelected$: Observable<CountryData> = this.store.select(
+  public countrySelectedData$: Observable<CountryData> = this.store.select(
     (state) => state.dashboard.countrySelected
   );
 
@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
         this.store.dispatch(loadCountries());
       }
     });
-    this.countrySelected$.subscribe((val) => {
+    this.countrySelectedData$.subscribe((val) => {
       if (val) {
         this.countrySelected = true;
         this.countrySlectedCode = val.CountryCode;
