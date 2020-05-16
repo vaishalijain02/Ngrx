@@ -1,6 +1,6 @@
 import { Global } from './interfaces/global';
 import { CountryData } from './interfaces/countries';
-import { StatsService } from './stats.service';
+import { StatsService } from '../services/stats.service';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -11,6 +11,7 @@ import {
 } from './actions/dashboard.actions';
 import { AppState } from '../reducers';
 import { FormGroup, FormControl } from '@angular/forms';
+import { globaldetails, countrySelectedData, countryList } from './dashboard.selector';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,15 +24,9 @@ export class DashboardComponent implements OnInit {
     private store: Store<AppState>
   ) {}
 
-  public global$: Observable<Global> = this.store.select(
-    (state) => state.dashboard.globaldetails
-  );
-  public countryList$: Observable<CountryData[]> = this.store.select(
-    (state) => state.dashboard.countryList
-  );
-  public countrySelectedData$: Observable<CountryData> = this.store.select(
-    (state) => state.dashboard.countrySelected
-  );
+  public global$: Observable<Global> = this.store.select(globaldetails);
+  public countryList$: Observable<CountryData[]> = this.store.select(countryList);
+  public countrySelectedData$: Observable<CountryData> = this.store.select(countrySelectedData);
 
   public countryForm: FormGroup;
 

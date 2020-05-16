@@ -1,10 +1,10 @@
-import { Global } from './interfaces/global';
+import { Global } from '../dashboard/interfaces/global';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Summary } from './interfaces/response';
+import { Summary } from '../dashboard/interfaces/response';
 import { map } from 'rxjs/operators';
-import { CountryData } from './interfaces/countries';
+import { CountryData } from '../dashboard/interfaces/countries';
 
 @Injectable({
   providedIn: 'root',

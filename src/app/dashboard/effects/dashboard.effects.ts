@@ -2,17 +2,12 @@ import {
   loadGlobal,
   failLoadGlobal,
   loadedGlobal,
-  selectedCountry,
-  loadedCountryConfirmed,
-  failLoadCountryData,
-  loadedCountryDead,
-  loadedCountryRecovered,
 } from './../actions/dashboard.actions';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, mergeMap, catchError, tap } from 'rxjs/operators';
-import { StatsService } from '../stats.service';
+import { StatsService } from '../../services/stats.service';
 import {
   loadCountries,
   loadedCountryList,
@@ -44,48 +39,6 @@ export class DashboardEffects {
       )
     )
   );
-
-  getCountrySelectedConfirmedDetails$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(selectedCountry),
-      mergeMap((action) =>
-        this.statsService.getConfirmedByCountry(action.countrySelected.CountryCode).pipe(
-          map((confirmed) =>
-          loadedCountryConfirmed({ confirmedList: confirmed })
-          ),
-          catchError(() => of(failLoadCountryData()))
-        )
-      )
-    )
-  );
-
-  getCountrySelectedRecoveredDetails$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(selectedCountry),
-    mergeMap((action) =>
-      this.statsService.getRecoveredByCountry(action.countrySelected.CountryCode).pipe(
-        map((recovered) =>
-        loadedCountryRecovered({ recoveredList: recovered })
-        ),
-        catchError(() => of(failLoadCountryData()))
-      )
-    )
-  )
-);
-
-getCountrySelectedDeadDetails$ = createEffect(() =>
-this.actions$.pipe(
-  ofType(selectedCountry),
-  mergeMap((action) =>
-    this.statsService.getDeadByCountry(action.countrySelected.CountryCode).pipe(
-      map((dead) =>
-      loadedCountryDead({ deadList: dead })
-      ),
-      catchError(() => of(failLoadCountryData()))
-    )
-  )
-)
-);
 
   constructor(private actions$: Actions, private statsService: StatsService) {}
 }

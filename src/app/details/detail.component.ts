@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -11,21 +12,12 @@ import { Observable } from 'rxjs';
 })
 export class DetailComponent implements OnInit {
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private route: ActivatedRoute,private store: Store<AppState>) { }
   public country$: Observable<CountryData>;
-  public countryDataConfirmedList$: Observable<any> = this.store.select(
-    (state) => state.dashboard.countryConfirmedData
-  );
 
-  public countryDataRecoveredList$: Observable<any> = this.store.select(
-    (state) => state.dashboard.countryRecoveredData
-  );
-
-  public countryDataDeadList$: Observable<any> = this.store.select(
-    (state) => state.dashboard.countryDeadData
-  );
 
   ngOnInit() {
+    this.route.data.subscribe(data => console.log('Data :', data));
     this.country$ = this.store.select((state) => state.dashboard.countrySelected);
   }
 

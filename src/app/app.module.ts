@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './reducers';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +38,11 @@ import { EffectsModule } from '@ngrx/effects';
       },
     }),
     EffectsModule.forRoot(),
+
+    StoreRouterConnectingModule.forRoot({
+      stateKey: 'router',
+      routerState: RouterState.Minimal
+    }),
 
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],

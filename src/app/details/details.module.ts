@@ -4,6 +4,8 @@ import { DetailComponent } from './detail.component';
 import { DetailsRoutingModule } from './details-routing.module';
 import { StoreModule } from '@ngrx/store';
 import * as fromDetails from './reducers';
+import { DetailsEffects } from './effects/details.effects';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [DetailComponent],
@@ -12,8 +14,9 @@ import * as fromDetails from './reducers';
     DetailsRoutingModule,
     StoreModule.forFeature(
       fromDetails.detailsFeatureKey,
-      fromDetails.reducers
+      fromDetails.reducer
     ),
+    EffectsModule.forFeature([DetailsEffects])
   ],
 })
 export class DetailsModule {}

@@ -10,18 +10,12 @@ export interface DashboardState {
   countryList: CountryData[];
   countrySelected: CountryData;
   globaldetails: Global;
-  countryConfirmedData: any;
-  countryRecoveredData: any;
-  countryDeadData: any;
 }
 
 export const initialState: DashboardState = {
   countryList: null,
   countrySelected: null,
-  globaldetails: null,
-  countryConfirmedData: null,
-  countryRecoveredData: null,
-  countryDeadData: null
+  globaldetails: null
 };
 
 const dashboardReducer = createReducer(
@@ -37,18 +31,6 @@ const dashboardReducer = createReducer(
   on(DashboardActions.loadedGlobal, (state, action) => ({
     ...state,
     globaldetails: action.globaldetails,
-  })),
-  on(DashboardActions.loadedCountryConfirmed, (state, action) => ({
-    ...state,
-    countryConfirmedData: action.confirmedList,
-  })),
-  on(DashboardActions.loadedCountryRecovered, (state, action) => ({
-    ...state,
-    countryRecoveredData: action.recoveredList
-  })),
-  on(DashboardActions.loadedCountryDead, (state, action) => ({
-    ...state,
-    countryDeadData: action.deadList,
   }))
 );
 
