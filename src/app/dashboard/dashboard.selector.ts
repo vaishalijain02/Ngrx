@@ -1,21 +1,38 @@
-import { createSelector, State } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { DashboardState } from './reducers';
 
 export const selectFeature = (state: AppState) => state.dashboard;
  
-export const globaldetails = createSelector(
+export const summaryDetails = createSelector(
     selectFeature,
-    (state:DashboardState)=> state.globaldetails
-);
-
-export const countryList = createSelector(
-    selectFeature,
-    (state:DashboardState)=> state.countryList
+    (state:DashboardState)=> state.summary
 );
 
 export const countrySelectedData = createSelector(
     selectFeature,
     (state:DashboardState)=> state.countrySelected
 );
+
+export const countryList = createSelector(
+    summaryDetails,
+    (summary)=> {
+        if(summary){
+            return summary.Countries
+        }
+        else{
+            return []
+        }
+    }
+);
+
+export const globaldetails = createSelector(
+    summaryDetails,
+    (summary)=> {
+        if(summary)
+        return summary.Global
+    }
+);
+
+
 

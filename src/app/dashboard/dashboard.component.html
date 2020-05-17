@@ -39,7 +39,7 @@
   
 </form>
 
-<div class="container" *ngIf="countrySelected">
+<div class="container" *ngIf="show && countrySelectedData$|async">
   <h3 class="text-align">
     {{ (countrySelectedData$ | async).Country }}-{{
       (countrySelectedData$ | async).CountryCode

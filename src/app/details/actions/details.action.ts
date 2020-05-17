@@ -1,5 +1,4 @@
 import { createAction, props } from '@ngrx/store';
-import { CountryData } from 'src/app/dashboard/interfaces/countries';
 
 export const loadedCountryConfirmed = createAction(
     '[Countries Confirmed API] Countries Confirmed Cases Loaded',

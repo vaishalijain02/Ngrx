@@ -1,17 +1,16 @@
 import { Global } from './interfaces/global';
 import { CountryData } from './interfaces/countries';
-import { StatsService } from '../services/stats.service';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
-  loadCountries,
+  loadData,
   selectedCountry,
-  loadGlobal,
 } from './actions/dashboard.actions';
 import { AppState } from '../reducers';
 import { FormGroup, FormControl } from '@angular/forms';
 import { globaldetails, countrySelectedData, countryList } from './dashboard.selector';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +19,6 @@ import { globaldetails, countrySelectedData, countryList } from './dashboard.sel
 })
 export class DashboardComponent implements OnInit {
   constructor(
-    private statService: StatsService,
     private store: Store<AppState>
   ) {}
 
@@ -30,43 +28,45 @@ export class DashboardComponent implements OnInit {
 
   public countryForm: FormGroup;
 
-  public countrySelected = false;
+  public show = false;
 
   public countrySlectedCode: String = 'IN';
 
   ngOnInit() {
-    this.global$.subscribe((val) => {
-      if (!val) {
-        this.store.dispatch(loadGlobal());
-      }
-    });
-    this.countryList$.subscribe((val) => {
-      if (!val) {
-        this.store.dispatch(loadCountries());
-      }
-    });
+    this.store.dispatch(loadData());
+
     this.countrySelectedData$.subscribe((val) => {
       if (val) {
-        this.countrySelected = true;
+        this.show = true;
         this.countrySlectedCode = val.CountryCode;
       }
     });
     this.countryForm = new FormGroup({
       country: new FormControl(this.countrySlectedCode),
     });
-    this.getStations(this.countryForm.controls.country.value);
     this.countryForm.controls.country.valueChanges.subscribe((val) => {
       this.getStations(val);
     });
+    this.getStations(this.countryForm.controls.country.value);
   }
 
   public getStations(stationCode) {
-    this.statService
-      .countryByCountryCode(stationCode)
-      .subscribe((countryStats) => {
-        this.store.dispatch(selectedCountry({ countrySelected: countryStats }));
-        this.countrySelected = true;
-      });
+     this.store.select(countryList).pipe(
+       map(
+        (countries: CountryData[]): CountryData => {
+          if(countries.length){
+            return countries.find(
+              (country: CountryData): boolean =>
+                country.CountryCode === stationCode
+            )
+          }
+        }
+          
+      )
+    ).subscribe((countryStats)=>{
+      this.store.dispatch(selectedCountry({ countrySelected: countryStats }));
+      this.show = true;
+    })
   }
 
   //   helllo(){
