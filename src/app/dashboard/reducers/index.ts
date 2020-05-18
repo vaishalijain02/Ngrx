@@ -1,4 +1,3 @@
-import { Global } from './../interfaces/global';
 import { CountryData } from './../interfaces/countries';
 import { Action, createReducer, on } from '@ngrx/store';
 import * as DashboardActions from '../actions/dashboard.actions';

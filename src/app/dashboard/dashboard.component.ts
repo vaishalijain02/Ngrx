@@ -8,6 +8,7 @@ import { AppState } from '../reducers';
 import { FormGroup, FormControl } from '@angular/forms';
 import { globaldetails, countrySelectedData, countryList, summaryDetails } from './dashboard.selector';
 import { Summary } from './interfaces/response';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -56,7 +57,9 @@ export class DashboardComponent implements OnInit {
   }
 
   public getStations(stationCode) {
-    this.store.dispatch(selectedCountryCode({ code: stationCode }));
+    this.summary$
+      .pipe(filter(val => val !== null))
+      .subscribe(summary => this.store.dispatch(selectedCountryCode({ code: stationCode })));
   }
 
   //   helllo(){

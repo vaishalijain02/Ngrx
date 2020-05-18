@@ -3,36 +3,31 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { DashboardState } from './reducers';
 
 //export const selectFeature = (state: AppState) => state.dashboard;
-export const selectFeature = createFeatureSelector<DashboardState>("dashboard");
+export const selectFeature = createFeatureSelector<DashboardState>('dashboard');
 export const summaryDetails = createSelector(
-    selectFeature,
-    (state:DashboardState)=> state.summary
+  selectFeature,
+  (state: DashboardState) => state.summary
 );
 
 export const countrySelectedData = createSelector(
-    selectFeature,
-    (state:DashboardState)=> state.countrySelected
+  selectFeature,
+  (state: DashboardState) => state.countrySelected
 );
 
 export const countryList = createSelector(
-    summaryDetails,
-    (summary)=> {
-        if(summary){
-            return summary.Countries
-        }
-        else{
-            return []
-        }
+  summaryDetails,
+  summary => {
+    if (summary) {
+      return summary.Countries;
+    } else {
+      return [];
     }
+  }
 );
 
 export const globaldetails = createSelector(
-    summaryDetails,
-    (summary)=> {
-        if(summary)
-        return summary.Global
-    }
+  summaryDetails,
+  summary => {
+    if (summary) return summary.Global;
+  }
 );
-
-
-
