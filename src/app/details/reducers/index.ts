@@ -3,11 +3,12 @@ import {
   Action,
   on
 } from '@ngrx/store';
-import * as DetailsActions from "../actions/details.action";
+import * as DetailsActions from '../actions/details.action';
 
 export const detailsFeatureKey = 'details';
 
 export interface DetailsState {
+  selectedCountryCode: String;
   countryConfirmedData: any;
   countryRecoveredData: any;
   countryDeadData: any;
@@ -15,7 +16,8 @@ export interface DetailsState {
 export const initialState: DetailsState = {
   countryConfirmedData: null,
   countryRecoveredData: null,
-  countryDeadData: null
+  countryDeadData: null,
+  selectedCountryCode: null,
 };
 
 const detailsReducer = createReducer(
@@ -30,7 +32,11 @@ const detailsReducer = createReducer(
   })),
   on(DetailsActions.loadedCountryDead, (state, action) => ({
     ...state,
-    countryDeadData: action.deadList,
+    countryDeadData: action.deadList
+  })),
+  on(DetailsActions.loadDetails, (state, action) => ({
+        ...state,
+        selectedCountryCode: action.country
   }))
 );
 

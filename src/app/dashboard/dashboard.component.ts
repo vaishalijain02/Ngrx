@@ -3,28 +3,24 @@ import { CountryData } from './interfaces/countries';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  loadData,
-  selectedCountry,
-} from './actions/dashboard.actions';
+import { loadData, selectedCountryCode } from './actions/dashboard.actions';
 import { AppState } from '../reducers';
 import { FormGroup, FormControl } from '@angular/forms';
-import { globaldetails, countrySelectedData, countryList } from './dashboard.selector';
-import { map } from 'rxjs/operators';
+import { globaldetails, countrySelectedData, countryList, summaryDetails } from './dashboard.selector';
+import { Summary } from './interfaces/response';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(
-    private store: Store<AppState>
-  ) {}
+  constructor(private store: Store<AppState>) {}
 
-  public global$: Observable<Global> = this.store.select(globaldetails);
-  public countryList$: Observable<CountryData[]> = this.store.select(countryList);
-  public countrySelectedData$: Observable<CountryData> = this.store.select(countrySelectedData);
+  public summary$: Observable<Summary>;
+  public global$: Observable<Global>;
+  public countryList$: Observable<CountryData[]>;
+  public countrySelectedData$: Observable<CountryData>;
 
   public countryForm: FormGroup;
 
@@ -33,40 +29,34 @@ export class DashboardComponent implements OnInit {
   public countrySlectedCode: String = 'IN';
 
   ngOnInit() {
-    this.store.dispatch(loadData());
+    this.summary$ = this.store.select(summaryDetails);
+    this.global$ = this.store.select(globaldetails);
+    this.countryList$ = this.store.select(countryList);
+    this.countrySelectedData$ = this.store.select(countrySelectedData);
 
-    this.countrySelectedData$.subscribe((val) => {
+    this.summary$.subscribe(val => {
+      if (!val) {
+        this.store.dispatch(loadData());
+      }
+    });
+
+    this.countrySelectedData$.subscribe(val => {
       if (val) {
         this.show = true;
         this.countrySlectedCode = val.CountryCode;
       }
     });
     this.countryForm = new FormGroup({
-      country: new FormControl(this.countrySlectedCode),
+      country: new FormControl(this.countrySlectedCode)
     });
-    this.countryForm.controls.country.valueChanges.subscribe((val) => {
+    this.countryForm.controls.country.valueChanges.subscribe(val => {
       this.getStations(val);
     });
     this.getStations(this.countryForm.controls.country.value);
   }
 
   public getStations(stationCode) {
-     this.store.select(countryList).pipe(
-       map(
-        (countries: CountryData[]): CountryData => {
-          if(countries.length){
-            return countries.find(
-              (country: CountryData): boolean =>
-                country.CountryCode === stationCode
-            )
-          }
-        }
-          
-      )
-    ).subscribe((countryStats)=>{
-      this.store.dispatch(selectedCountry({ countrySelected: countryStats }));
-      this.show = true;
-    })
+    this.store.dispatch(selectedCountryCode({ code: stationCode }));
   }
 
   //   helllo(){

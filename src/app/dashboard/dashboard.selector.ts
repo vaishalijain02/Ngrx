@@ -1,9 +1,9 @@
-import { createSelector } from '@ngrx/store';
-import { AppState } from '../reducers';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
+// import { AppState } from '../reducers';
 import { DashboardState } from './reducers';
 
-export const selectFeature = (state: AppState) => state.dashboard;
- 
+//export const selectFeature = (state: AppState) => state.dashboard;
+export const selectFeature = createFeatureSelector<DashboardState>("dashboard");
 export const summaryDetails = createSelector(
     selectFeature,
     (state:DashboardState)=> state.summary

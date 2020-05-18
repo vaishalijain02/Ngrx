@@ -20,5 +20,4 @@ export class DetailComponent implements OnInit {
     this.route.data.subscribe(data => console.log('Data :', data));
     this.country$ = this.store.select((state) => state.dashboard.countrySelected);
   }
-
 }
