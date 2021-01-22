@@ -1,0 +1,65 @@
+<h3 class="text-align">
+  {{ (country$ | async)?.Country }} {{ (country$ | async)?.CountryCode }}
+</h3>
+<div class="container">
+  <div class="row mb-3">
+    <div class="col">
+      <button type="button" class="btn btn-primary">
+        Total Cases
+        <span class="badge badge-light">{{
+          (country$ | async)?.TotalConfirmed
+        }}</span>
+      </button>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-danger">
+        Total Deaths
+        <span class="badge badge-light">{{
+          (country$ | async)?.TotalDeaths
+        }}</span>
+      </button>
+
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-success">
+        Total Recovered
+        <span class="badge badge-light">{{
+          (country$ | async)?.TotalRecovered
+        }}</span>
+      </button>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <ul class="list-group row" *ngFor="let case of countryDataConfirmedList$ | async">
+        <li class="list-group-item">
+          {{ case.Date | date }} - {{ case.Cases }}
+        </li>
+      </ul>
+    </div>
+    <div class="col">
+      <ul class="list-group" *ngFor="let case of countryDataDeadList$ | async">
+        <li class="list-group-item">
+          {{ case.Date | date }} - {{ case.Cases }}
+        </li>
+      </ul>
+    </div>
+    <div class="col">
+      <ul class="list-group" *ngFor="let case of countryDataRecoveredList$ | async">
+        <li class="list-group-item">
+          {{ case.Date | date }} - {{ case.Cases }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <br />
+  <br />
+  <div class="text-align">
+    <button routerLink="/dashboard" type="button" class="btn btn-info">
+      Back to dashboard
+    </button>
+  </div>
+</div>
+<br />
+<br />

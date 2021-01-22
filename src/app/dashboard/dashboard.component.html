@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+     <div class="card text-white bg-primary mb-3">
+       <div class="card-header">Total Cases</div>
+       <div class="card-body">
+         <p class="card-text">{{ (global$ | async)?.TotalConfirmed }}</p>
+       </div>
+     </div>
+    </div>
+     <div class="col">
+       <div class="card text-white bg-danger mb-3">
+         <div class="card-header">Total Deaths</div>
+         <div class="card-body">
+           <p class="card-text">{{ (global$ | async)?.TotalDeaths }}</p>
+         </div>
+       </div>
+     </div>
+   <div class="col">
+     <div class="col card text-white bg-success mb-3">
+       <div class="card-header">Total Recovered</div>
+       <div class="card-body">
+         <p class="card-text">{{ (global$ | async)?.TotalRecovered }}</p>
+       </div>
+     </div>
+   </div>
+   </div>
+</div>
+
+
+<form class="container" [formGroup]="countryForm">
+  <select formControlName="country" class="custom-select custom-select-lg mb-3">
+    <option
+      *ngFor="let country of countryList$ | async"
+      [ngValue]="country.CountryCode"
+      >{{ country.Country }} ({{ country.CountryCode }})</option
+    >
+  </select>
+  
+</form>
+
+<div class="container" *ngIf="show && countrySelectedData$|async">
+  <h3 class="text-align">
+    {{ (countrySelectedData$ | async).Country }}-{{
+      (countrySelectedData$ | async).CountryCode
+    }}
+  </h3>
+
+  <div class="alert alert-primary" role="alert">
+    Total Cases - {{ (countrySelectedData$ | async)?.TotalConfirmed }}
+  </div>
+  <div class="alert alert-danger" role="alert">
+    Total Deaths - {{ (countrySelectedData$ | async)?.TotalDeaths }}
+  </div>
+  <div class="alert alert-success" role="alert">
+    Total Recovered - {{ (countrySelectedData$ | async)?.TotalRecovered }}
+  </div>
+  <div class="text-align">
+    <button routerLink="/details" type="button" class="btn btn-info">
+      Go to details
+    </button>
+  </div>
+</div>
+
+<!-- <h3 class="heading">World Data</h3>
+<div class="world-map"></div>
+<h3 class="heading">Country Specific</h3>
+<div class="select">
+  <select id="country"></select>
+</div>
+<div class="country-chart"></div> -->
+<!-- 
+<br />
+<br />
+<br />
+<br /> -->
+<br />
+<p class="info text-align">
+  The API used is available
+  <a
+    href="https://documenter.getpostman.com/view/10808728/SzS8rjbc?version=latest"
+    target="_blank"
+    >here</a
+  >.
+</p>
